@@ -5,8 +5,8 @@ This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and 
 [View compiled example online][compiled]
 [View blog post][post]
 
-[wasm-pack-template] https://github.com/rustwasm/wasm-pack-template
-[create-wasm-app] https://github.com/rustwasm/create-wasm-app
+[wasm-pack-template]: https://github.com/rustwasm/wasm-pack-template
+[create-wasm-app]: https://github.com/rustwasm/create-wasm-app
 [compiled]: https://placeholder.com
 [post]: https://placeholder.com
 
