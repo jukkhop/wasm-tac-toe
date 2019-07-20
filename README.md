@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and [create-wasm-app][create-wasm-app].
 
-[Check out online][compiled]
+[Try online][compiled]
 <br>
 [Blog post][post]
 
