@@ -12,6 +12,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 js-sys = "0.3.25"
+queues = "1.0.2"
 wasm-bindgen = "0.2.48"
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.2", optional = true }
@@ -31,6 +32,8 @@ features = [
   'Node',
   'NodeList',
   'Window',
+  'Performance',
+  'PerformanceTiming',
 ]
 
 [profile.release]

@@ -1,6 +1,6 @@
-// !
+// Implementation for a single tac toe board
 
-use crate::dom::log_str;
+// use crate::dom::log_str;
 use crate::math::random_usize;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -29,8 +29,11 @@ impl CellValue {
 
 #[derive(Clone, Copy, Debug)]
 pub struct Board {
+    pub cell_progress: [[f64; 3]; 3],
     pub cells: [[CellValue; 3]; 3],
+    pub cross_progress: f64,
     pub current_player: CellValue,
+    pub is_crossed: bool,
     pub move_count: usize,
     pub winner: CellValue,
 }
@@ -42,9 +45,6 @@ impl Board {
 
         self.move_count += 1;
         self.cells[x][y] = p;
-
-        // log_str(&format!("p: {:?}", p));
-        // log_str(&format!("move_count: {:?}", self.move_count));
 
         if self.is_winning(x, y, p) {
             self.winner = p;
@@ -96,6 +96,47 @@ impl Board {
         }
     }
 
+    #[rustfmt::skip]
+    #[allow(dead_code)]
+    pub fn get_win_coordinates(&self) -> Option<(i32, i32, i32, i32)> {
+        let w = self.winner;
+        let c = self.cells;
+
+        if c[0][0] == w && c[0][1] == w && c[0][2] == w {
+           return Some((0, 0, 0, 2));
+        }
+
+        if c[1][0] == w && c[1][1] == w && c[1][2] == w {
+           return Some((1, 0, 1, 2));
+        }
+
+        if c[2][0] == w && c[2][1] == w && c[2][2] == w {
+           return Some((2, 0, 2, 2));
+        }
+
+        if c[0][0] == w && c[1][0] == w && c[2][0] == w {
+           return Some((0, 0, 2, 0));
+        }
+
+        if c[0][1] == w && c[1][1] == w && c[2][1] == w {
+           return Some((0, 1, 2, 1));
+        }
+
+        if c[0][2] == w && c[1][2] == w && c[2][2] == w {
+           return Some((0, 2, 2, 2));
+        }
+
+        if c[0][0] == w && c[1][1] == w && c[2][2] == w {
+           return Some((0, 0, 2, 2));
+        }
+
+        if c[0][2] == w && c[1][1] == w && c[2][0] == w {
+           return Some((0, 2, 2, 0));
+        }
+
+        None
+    }
+
     pub fn get_free_cells(&self) -> Vec<(usize, usize)> {
         let mut free_cells = Vec::new();
 
@@ -136,20 +177,16 @@ impl Board {
     pub fn is_finished(&self) -> bool {
         self.current_player.is_empty()
     }
-
-    pub fn reset(&mut self) {
-        self.cells = [[CellValue::Empty; 3]; 3];
-        self.current_player = CellValue::O;
-        self.move_count = 0;
-        self.winner = CellValue::Empty;
-    }
 }
 
 impl Default for Board {
     fn default() -> Self {
         Self {
+            cell_progress: [[0.0; 3]; 3],
             cells: [[CellValue::Empty; 3]; 3],
+            cross_progress: 0.0,
             current_player: CellValue::O,
+            is_crossed: false,
             move_count: 0,
             winner: CellValue::Empty,
         }
