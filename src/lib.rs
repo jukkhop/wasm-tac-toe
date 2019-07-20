@@ -19,7 +19,7 @@ use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::CanvasRenderingContext2d;
 
-const BOARD_AMOUNT: usize = 5;
+const BOARD_AMOUNT: usize = 20;
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
@@ -43,13 +43,11 @@ pub fn main() -> Result<(), JsValue> {
     let pointer_clone = pointer.clone();
 
     let update_delay = 1000.0;
-    let anim_duration = 750.0;
+    let anim_duration = 900.0;
 
     let mut last_update = 0.0;
     let mut last_render = 0.0;
     let mut fps_counter = FpsCounter::new();
-
-    // Mutable two-dimensional array of boards
     let mut boards = [[Board::default(); BOARD_AMOUNT]; BOARD_AMOUNT];
 
     let func = Box::new(move || {
@@ -137,15 +135,11 @@ fn render(
 ) {
     let (board_width, board_height, board_spacing_x, board_spacing_y) = board_dimensions;
 
-    ctx.clear_rect(0.0, 0.0, width, height);
+    // ctx.clear_rect(0.0, 0.0, width, height);
     ctx.begin_path();
 
     let sq_width = board_width / 3.0;
     let sq_height = board_height / 3.0;
-
-    // Render fps counter
-    ctx.fill_text(&format!("FPS {:.0}", fps), 5.0, 16.0)
-        .unwrap();
 
     // Render the boards
     for x in 0..BOARD_AMOUNT {
@@ -171,11 +165,21 @@ fn render(
             // Render the noughts and the crosses
             for cell_x in 0..3 {
                 for cell_y in 0..3 {
+                    let progress = board.cell_progress[cell_x][cell_y];
+
+                    if progress == 1.0 {
+                        continue;
+                    }
+
+                    let start_x = cell_x as f64 * sq_width + offset_x;
+                    let start_y = cell_y as f64 * sq_height + offset_y;
+                    let end_x = start_x + sq_width;
+                    let end_y = start_y + sq_height;
+
                     let center_x = cell_x as f64 * sq_width + (sq_width / 2.0) + offset_x;
                     let center_y = cell_y as f64 * sq_height + (sq_height / 2.0) + offset_y;
                     let r = sq_height / 5.0;
                     let cell = board.cells[cell_x][cell_y];
-                    let progress = board.cell_progress[cell_x][cell_y];
 
                     match cell {
                         CellValue::O => {
@@ -188,8 +192,9 @@ fn render(
                             let origin_y = center_y - r;
                             let target_x = center_x + r;
                             let target_y = center_y + r;
-                            let delta_x = (target_x - origin_x) * progress;
-                            let delta_y = (target_y - origin_y) * progress;
+                            let inner_progress = if progress < 0.5 { progress * 2.0 } else { 1.0 };
+                            let delta_x = (target_x - origin_x) * inner_progress;
+                            let delta_y = (target_y - origin_y) * inner_progress;
 
                             ctx.move_to(origin_x, origin_y);
                             ctx.line_to(origin_x + delta_x, origin_y + delta_y);
@@ -198,28 +203,25 @@ fn render(
                             let origin_y = center_y + r;
                             let target_x = center_x + r;
                             let target_y = center_y - r;
-                            let delta_x = (target_x - origin_x) * progress;
-                            let delta_y = (target_y - origin_y) * progress;
+                            let inner_progress = if progress > 0.5 {
+                                (progress - 0.5) * 2.0
+                            } else {
+                                0.0
+                            };
+                            let delta_x = (target_x - origin_x) * inner_progress;
+                            let delta_y = (target_y - origin_y) * inner_progress;
 
                             ctx.move_to(origin_x, origin_y);
                             ctx.line_to(origin_x + delta_x, origin_y + delta_y);
                         }
-                        _ => {}
+                        CellValue::Empty => {
+                            ctx.clear_rect(start_x, start_y, end_x, end_y);
+                        }
                     }
                 }
             }
-        }
-    }
 
-    ctx.set_stroke_style(&JsValue::from("#cccccc"));
-    ctx.stroke();
-    ctx.begin_path();
-
-    // Render the cross-overs / strikethroughs
-    for x in 0..BOARD_AMOUNT {
-        for y in 0..BOARD_AMOUNT {
-            let board = boards[x][y];
-
+            // Render the cross-overs / strikethroughs
             if board.is_crossed {
                 let offset_x = x as f64 * (board_width + board_spacing_x) + board_spacing_x;
                 let offset_y = y as f64 * (board_height + board_spacing_y) + board_spacing_y;
@@ -246,6 +248,11 @@ fn render(
         }
     }
 
-    ctx.set_stroke_style(&JsValue::from("#999999"));
+    // Render fps counter
+    ctx.set_font("20px monospace");
+    ctx.fill_text(&format!("FPS {:.0}", fps), 5.0, 20.0)
+        .unwrap();
+
+    ctx.set_stroke_style(&JsValue::from("#cccccc"));
     ctx.stroke();
 }

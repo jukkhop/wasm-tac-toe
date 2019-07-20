@@ -10,6 +10,9 @@ pub fn scale_canvas(window: &Window, canvas: &HtmlCanvasElement, ctx: &CanvasRen
         let width = window_width();
         let height = window_height();
 
+        // canvas.set_width(width as u32);
+        // canvas.set_height(height as u32);
+
         let scaled_width = width as f64 * pixel_ratio;
         let scaled_height = height as f64 * pixel_ratio;
 
