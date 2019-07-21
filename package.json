@@ -9,7 +9,7 @@
   },
   "version": "0.1.0",
   "dependencies": {
-    "wasm-game-of-life": "file:../pkg"
+    "wasm-tac-toe": "file:./pkg"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",
