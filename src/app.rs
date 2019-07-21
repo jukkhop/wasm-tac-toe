@@ -71,6 +71,8 @@ pub fn run() {
                     if !board.is_finished() {
                         board.play();
                     }
+
+                    last_update = now;
                 }
 
                 for cell_x in 0..3 {
@@ -98,11 +100,6 @@ pub fn run() {
         let fps = fps_counter.tick();
         render(&ctx, width, height, board_dimensions, &boards, fps);
         last_render = now;
-
-        if do_update {
-            last_update = now;
-        }
-
         dom::request_animation_frame(pointer.borrow().as_ref().unwrap());
     });
 
