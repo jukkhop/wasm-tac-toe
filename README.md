@@ -1,4 +1,4 @@
-# Tac-toe experiment with Rust & WebAssembly
+# Canvas experiment with Rust & WebAssembly
 
 This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and [create-wasm-app][create-wasm-app].
 
