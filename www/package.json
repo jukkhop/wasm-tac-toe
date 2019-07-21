@@ -1,31 +1,13 @@
 {
-  "name": "create-wasm-app",
-  "version": "0.1.0",
-  "description": "create an app to consume rust-generated wasm packages",
-  "main": "index.js",
-  "bin": {
-    "create-wasm-app": ".bin/create-wasm-app.js"
-  },
-  "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "webpack-dev-server"
-  },
+  "author": "Jukka Hopeavuori <jukka.hopea@gmail.com>",
+  "description": "Canvas tac-toe experiment with Rust & WebAssembly",
+  "license": "MIT",
+  "name": "wasm-tac-toe",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rustwasm/create-wasm-app.git"
+    "url": "git@github.com:jukkhop/wasm-tac-toe.git"
   },
-  "keywords": [
-    "webassembly",
-    "wasm",
-    "rust",
-    "webpack"
-  ],
-  "author": "Ashley Williams <ashley666ashley@gmail.com>",
-  "license": "(MIT OR Apache-2.0)",
-  "bugs": {
-    "url": "https://github.com/rustwasm/create-wasm-app/issues"
-  },
-  "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
+  "version": "0.1.0",
   "dependencies": {
     "wasm-game-of-life": "file:../pkg"
   },
@@ -34,5 +16,9 @@
     "webpack": "^4.29.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server"
   }
 }

@@ -1,6 +1,6 @@
 [package]
 authors = ["Jukka Hopeavuori <jukka.hopea@gmail.com>"]
-description = "Canvas experiment with Rust & WebAssembly"
+description = "Canvas tac-toe experiment with Rust & WebAssembly"
 edition = "2018"
 license = "MIT"
 name = "wasm-tac-toe"
