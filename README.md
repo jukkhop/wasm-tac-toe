@@ -12,6 +12,8 @@ This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and 
 [compiled]: https://placeholder.com
 [post]: https://placeholder.com
 
+<br>
+
 Build and run locally:
 
 ```
