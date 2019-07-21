@@ -1,4 +1,4 @@
-// Utility functions
+// Util functions
 
 use crate::dom::{window_height, window_width};
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, Window};

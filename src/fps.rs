@@ -1,3 +1,5 @@
+// Fps counter
+
 use crate::dom::timestamp;
 use std::collections::VecDeque;
 

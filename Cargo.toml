@@ -1,11 +1,11 @@
 [package]
-name = "wasm-tac-toe"
-version = "0.1.0"
 authors = ["Jukka Hopeavuori <jukka.hopea@gmail.com>"]
+description = "Canvas experiment with Rust & WebAssembly"
 edition = "2018"
 license = "MIT"
+name = "wasm-tac-toe"
 repository = "git@github.com:jukkhop/wasm-tac-toe.git"
-description = "WebAssembly tac-toe experiment"
+version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
