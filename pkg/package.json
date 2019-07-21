@@ -1,0 +1,22 @@
+{
+  "name": "wasm-tac-toe",
+  "collaborators": [
+    "Jukka Hopeavuori <jukka.hopea@gmail.com>"
+  ],
+  "description": "Canvas tac-toe experiment with Rust & WebAssembly",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jukkhop/wasm-tac-toe.git"
+  },
+  "files": [
+    "wasm_tac_toe_bg.wasm",
+    "wasm_tac_toe.js",
+    "wasm_tac_toe.d.ts",
+    "LICENSE_MIT"
+  ],
+  "module": "wasm_tac_toe.js",
+  "types": "wasm_tac_toe.d.ts",
+  "sideEffects": "false"
+}
