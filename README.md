@@ -4,7 +4,7 @@
 
 This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and [create-wasm-app][create-wasm-app].
 
-#### [Try the compiled version online][compiled]
+#### [Compiled version][compiled]
 #### [Blog post][post]
 
 [wasm-pack-template]: https://github.com/rustwasm/wasm-pack-template
