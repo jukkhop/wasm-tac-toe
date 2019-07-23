@@ -5,8 +5,8 @@ function __wbg_elem_binding0(arg0, arg1) {
 }
 /**
 */
-export function main() {
-    wasm.main();
+export function start() {
+    wasm.start();
 }
 
 const heap = new Array(32);
@@ -434,7 +434,7 @@ export const __wbindgen_throw = function(arg0, arg1) {
     throw new Error(getStringFromWasm(arg0, arg1));
 };
 
-export const __wbindgen_closure_wrapper78 = function(arg0, arg1, arg2) {
+export const __wbindgen_closure_wrapper76 = function(arg0, arg1, arg2) {
     const state = { a: arg0, b: arg1, cnt: 1 };
     const real = () => {
         state.cnt++;

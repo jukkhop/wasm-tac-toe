@@ -1,14 +1,15 @@
-// App file
+// Main file
 
 use crate::board::{Board, CellValue};
 use crate::dom;
 use crate::fps::FpsCounter;
+use crate::profiler::Profiler;
 use crate::utils;
 
 use std::cell::RefCell;
 use std::f64;
 use std::rc::Rc;
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::{Closure, JsValue};
 use web_sys::CanvasRenderingContext2d;
 
 const BOARD_AMOUNT: usize = 25;
@@ -31,7 +32,6 @@ pub fn run() {
     let board_width = ((width - total_spacing_x) / BOARD_AMOUNT as f64).floor();
     let board_height = ((height - total_spacing_y) / BOARD_AMOUNT as f64).floor();
     let board_dimensions = (board_width, board_height, board_spacing_x, board_spacing_y);
-
     let pointer = Rc::new(RefCell::new(None));
     let pointer_clone = pointer.clone();
 
@@ -39,13 +39,14 @@ pub fn run() {
     let mut last_render = 0.0;
     let mut fps_counter = FpsCounter::new();
     let mut boards = [[Board::default(); BOARD_AMOUNT]; BOARD_AMOUNT];
-
+    let mut profiler = Profiler::new();
     let func = Box::new(move || {
         let now = dom::timestamp();
         let update_delta = now - last_update;
         let render_delta = now - last_render;
         let do_update = update_delta > UPDATE_DELAY;
         let progress_incr = render_delta / ANIM_DURATION;
+        profiler.start();
 
         for x in 0..BOARD_AMOUNT {
             for y in 0..BOARD_AMOUNT {
@@ -97,15 +98,18 @@ pub fn run() {
             }
         }
 
+        profiler.stop();
+
         let fps = fps_counter.tick();
-        render(&ctx, width, height, board_dimensions, &boards, fps);
+        let um = profiler.mean();
+
+        render(&ctx, width, height, board_dimensions, &boards, fps, um);
         last_render = now;
         dom::request_animation_frame(pointer.borrow().as_ref().unwrap());
     });
 
     let closure = Closure::wrap(func as Box<dyn FnMut()>);
     *pointer_clone.borrow_mut() = Some(closure);
-
     dom::request_animation_frame(pointer_clone.borrow().as_ref().unwrap());
 }
 
@@ -116,6 +120,7 @@ fn render(
     board_dimensions: (f64, f64, f64, f64),
     boards: &[[Board; BOARD_AMOUNT]; BOARD_AMOUNT],
     fps: f64,
+    update_mean: f64,
 ) {
     let (board_width, board_height, board_spacing_x, board_spacing_y) = board_dimensions;
 
@@ -217,8 +222,11 @@ fn render(
     ctx.set_stroke_style(&JsValue::from("#cccccc"));
     ctx.stroke();
 
-    // Render the fps counter
+    // Render metrics
     ctx.set_font("20px monospace");
     ctx.fill_text(&format!("FPS {:.0}", fps), 5.0, 20.0)
+        .unwrap();
+
+    ctx.fill_text(&format!("Update mean {:.2}", update_mean), 100.0, 20.0)
         .unwrap();
 }

@@ -5,11 +5,11 @@
 This project was bootstrapped with [wasm-pack-template][wasm-pack-template] and [create-wasm-app][create-wasm-app].
 
 #### [Try the compiled version online][compiled]
-#### [Blog post][post]
+#### [Read the blog post][post]
 
 [wasm-pack-template]: https://github.com/rustwasm/wasm-pack-template
 [create-wasm-app]: https://github.com/rustwasm/create-wasm-app
-[compiled]: https://placeholder.com
+[compiled]: https://wasm-tac-toe.netlify.com/
 [post]: https://placeholder.com
 
 <br>
@@ -18,7 +18,6 @@ Build and run locally:
 
 ```
 $ wasm-pack build
-$ cd www
 $ npm install
 $ npm run start
 ```

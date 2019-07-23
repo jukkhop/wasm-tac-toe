@@ -1,6 +1,6 @@
-// Utility functions for using the dom (via the web-sys crate)
+// Helper functions for using the dom (via the web-sys crate)
 
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::{Closure, JsValue};
 use wasm_bindgen::JsCast;
 use web_sys::{console, CanvasRenderingContext2d, HtmlCanvasElement, Window};
 
@@ -61,7 +61,6 @@ pub fn log_str(s: &str) {
     console::log_1(&JsValue::from_str(s));
 }
 
-/// log anything. Uses format!
 #[macro_export]
 macro_rules! log {
     ($($arg:tt)*) => (log_str(&format!($($arg)*)));

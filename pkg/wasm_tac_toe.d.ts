@@ -1,4 +1,4 @@
 /* tslint:disable */
 /**
 */
-export function main(): void;
+export function start(): void;
