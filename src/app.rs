@@ -40,7 +40,8 @@ pub fn run() {
     let mut fps_counter = FpsCounter::new();
     let mut boards = [[Board::default(); BOARD_AMOUNT]; BOARD_AMOUNT];
     let mut profiler = Profiler::new();
-    let func = Box::new(move || {
+
+    let closure = Box::new(move || {
         let now = dom::timestamp();
         let update_delta = now - last_update;
         let render_delta = now - last_render;
@@ -99,7 +100,6 @@ pub fn run() {
         }
 
         profiler.stop();
-
         let fps = fps_counter.tick();
         let um = profiler.mean();
 
@@ -108,8 +108,8 @@ pub fn run() {
         dom::request_animation_frame(pointer.borrow().as_ref().unwrap());
     });
 
-    let closure = Closure::wrap(func as Box<dyn FnMut()>);
-    *pointer_clone.borrow_mut() = Some(closure);
+    let wrapped = Closure::wrap(closure as Box<dyn FnMut()>);
+    *pointer_clone.borrow_mut() = Some(wrapped);
     dom::request_animation_frame(pointer_clone.borrow().as_ref().unwrap());
 }
 
@@ -199,21 +199,18 @@ fn render(
                 let result = board.get_win_row();
                 let progress = board.cross_progress;
 
-                match result {
-                    Some(row) => {
-                        let (x1, y1, x2, y2) = row;
+                if let Some(row) = result {
+                    let (x1, y1, x2, y2) = row;
 
-                        let origin_x = x1 as f64 * sq_width + (sq_width / 2.0) + offset_x;
-                        let origin_y = y1 as f64 * sq_height + (sq_height / 2.0) + offset_y;
-                        let target_x = x2 as f64 * sq_width + (sq_width / 2.0) + offset_x;
-                        let target_y = y2 as f64 * sq_height + (sq_height / 2.0) + offset_y;
-                        let delta_x = (target_x - origin_x) * progress;
-                        let delta_y = (target_y - origin_y) * progress;
+                    let origin_x = x1 as f64 * sq_width + (sq_width / 2.0) + offset_x;
+                    let origin_y = y1 as f64 * sq_height + (sq_height / 2.0) + offset_y;
+                    let target_x = x2 as f64 * sq_width + (sq_width / 2.0) + offset_x;
+                    let target_y = y2 as f64 * sq_height + (sq_height / 2.0) + offset_y;
+                    let delta_x = (target_x - origin_x) * progress;
+                    let delta_y = (target_y - origin_y) * progress;
 
-                        ctx.move_to(origin_x, origin_y);
-                        ctx.line_to(origin_x + delta_x, origin_y + delta_y);
-                    }
-                    None => {}
+                    ctx.move_to(origin_x, origin_y);
+                    ctx.line_to(origin_x + delta_x, origin_y + delta_y);
                 }
             }
         }

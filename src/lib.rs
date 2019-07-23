@@ -1,7 +1,7 @@
+mod app;
 mod board;
 mod dom;
 mod fps;
-mod main;
 mod math;
 mod profiler;
 mod utils;
@@ -14,6 +14,6 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(start)]
 pub fn start() -> Result<(), JsValue> {
-    main::run();
+    app::run();
     Ok(())
 }

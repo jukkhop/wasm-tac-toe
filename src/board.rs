@@ -10,15 +10,15 @@ pub enum CellValue {
 }
 
 impl CellValue {
-    pub fn is_empty(&self) -> bool {
-        match *self {
+    pub fn is_empty(value: CellValue) -> bool {
+        match value {
             CellValue::Empty => true,
             _ => false,
         }
     }
 
-    pub fn next(&self) -> CellValue {
-        match *self {
+    pub fn next(value: CellValue) -> CellValue {
+        match value {
             CellValue::O => CellValue::X,
             CellValue::X => CellValue::O,
             CellValue::Empty => CellValue::Empty,
@@ -49,7 +49,7 @@ impl Board {
         }
 
         // Check if we can prevent the opponent from winning
-        let opponent = self.current_player.next();
+        let opponent = CellValue::next(self.current_player);
 
         for c in &free_cells {
             if self.is_winning(c.0, c.1, opponent) {
@@ -66,7 +66,7 @@ impl Board {
 
         for x in 0..3 {
             for y in 0..3 {
-                if self.cells[x][y].is_empty() {
+                if CellValue::is_empty(self.cells[x][y]) {
                     free_cells.push((x, y));
                 }
             }
@@ -117,7 +117,7 @@ impl Board {
     }
 
     pub fn is_finished(&self) -> bool {
-        self.current_player.is_empty()
+        CellValue::is_empty(self.current_player)
     }
 
     #[rustfmt::skip]
@@ -172,7 +172,7 @@ impl Board {
             self.current_player = if self.move_count == 9 {
                 CellValue::Empty
             } else {
-                self.current_player.next()
+                CellValue::next(self.current_player)
             };
         }
     }

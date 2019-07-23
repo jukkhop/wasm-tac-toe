@@ -34,8 +34,6 @@ impl FpsCounter {
         }
 
         let sum: f64 = self.frames.iter().sum();
-        let mean = sum / frames_len as f64;
-
-        mean
+        sum / frames_len as f64
     }
 }
