@@ -1,5 +1,8 @@
+// Bootstrap file
+
 #[allow(clippy::cast_lossless)]
 #[allow(clippy::needless_range_loop)]
+#[deny(clippy::shadow_unrelated)]
 //
 //
 mod app;

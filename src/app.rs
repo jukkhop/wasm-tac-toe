@@ -1,4 +1,4 @@
-// Main file
+// App file
 
 use crate::board::{Board, CellValue};
 use crate::dom;
