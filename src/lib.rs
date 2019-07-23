@@ -1,3 +1,7 @@
+#[allow(clippy::cast_lossless)]
+#[allow(clippy::needless_range_loop)]
+//
+//
 mod app;
 mod board;
 mod dom;

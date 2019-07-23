@@ -2,7 +2,7 @@
 
 use crate::math::random_usize;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum CellValue {
     O,
     X,
@@ -26,7 +26,7 @@ impl CellValue {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy)]
 pub struct Board {
     pub cells: [[CellValue; 3]; 3],
     pub cross_progress: f64,
@@ -44,7 +44,7 @@ impl Board {
         // Check if there's a winning move
         for c in &free_cells {
             if self.is_winning(c.0, c.1, self.current_player) {
-                return c.clone();
+                return *c;
             }
         }
 
@@ -53,7 +53,7 @@ impl Board {
 
         for c in &free_cells {
             if self.is_winning(c.0, c.1, opponent) {
-                return c.clone();
+                return *c;
             }
         }
 
