@@ -1,4 +1,4 @@
-# Canvas tac-toe experiment with Rust & WebAssembly
+# Canvas experiment with Rust & WebAssembly
 
 ![alt text](https://github.com/jukkhop/ts-tac-toe/blob/master/screenshot.png "Screenshot")
 
