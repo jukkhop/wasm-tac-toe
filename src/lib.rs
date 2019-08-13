@@ -4,7 +4,6 @@
 #[allow(clippy::needless_range_loop)]
 #[deny(clippy::shadow_unrelated)]
 //
-//
 mod app;
 mod board;
 mod dom;

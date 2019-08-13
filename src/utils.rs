@@ -4,21 +4,17 @@ use crate::dom::{window_height, window_width};
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, Window};
 
 pub fn scale_canvas(window: &Window, canvas: &HtmlCanvasElement, ctx: &CanvasRenderingContext2d) {
+    let width = window_width();
+    let height = window_height();
     let pixel_ratio = window.device_pixel_ratio();
 
+    let scaled_width = width * pixel_ratio;
+    let scaled_height = height * pixel_ratio;
+
+    canvas.set_width(scaled_width as u32);
+    canvas.set_height(scaled_height as u32);
+
     if pixel_ratio > 1.0 {
-        let width = window_width();
-        let height = window_height();
-
-        // canvas.set_width(width as u32);
-        // canvas.set_height(height as u32);
-
-        let scaled_width = width as f64 * pixel_ratio;
-        let scaled_height = height as f64 * pixel_ratio;
-
-        canvas.set_width(scaled_width as u32);
-        canvas.set_height(scaled_height as u32);
-
         ctx.scale(pixel_ratio, pixel_ratio).unwrap();
     }
 }
